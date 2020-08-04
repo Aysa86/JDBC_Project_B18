@@ -7,6 +7,25 @@ public class DB_Utility {
    private static Connection conn;
    private static ResultSet rs = null;
    /*
+   a static method to get the column count of the current ResultSet
+        getColumnCNT()
+    */
+    public static int getColumnCNT(){
+       int columnCount = 0;
+        ResultSetMetaData rsmd = null;
+        try {
+            rsmd = rs.getMetaData();
+            columnCount = rsmd.getColumnCount();
+        } catch (SQLException throwables) {
+            System.out.println("Error while counting the columns");
+            throwables.printStackTrace();
+        }
+
+
+        return columnCount;
+    }
+
+   /*
     a static method to create a connection
     with valid url, username and password
      */
