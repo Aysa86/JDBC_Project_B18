@@ -23,10 +23,10 @@ public class DB_Utility {
                 rs.close();
             }
             if(stmnt!=null){
-                rs.close();
+                stmnt.close();
             }
             if(conn!=null){
-                rs.close();
+                conn.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
