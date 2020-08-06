@@ -1,16 +1,60 @@
-package com.day2;
+package com.cybertek.jdbc.utility;
+
+
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DB_Utility {
 // adding static field so we can access in all static methods
    private static Connection conn;
    private static ResultSet rs ;
    private static Statement stmnt;
+
+    /*
+    a static method to create a connection
+    with valid url, username and password
+     */
+    public static void createConnection(){
+
+        String connectionString = "jdbc:oracle:thin:@100.25.162.89:1521:XE";
+        String userName = "hr";
+        String password = "hr";
+
+        try {
+            conn = DriverManager.getConnection(connectionString, userName, password);
+            System.out.println("Connection successful");
+        } catch (SQLException throwables) {
+            System.out.println("Connection has failed");
+            throwables.printStackTrace();
+        }
+
+
+
+    }
+
+    /**
+     *  Overload createConnection method to accept url, username, password
+     *     * so we can provide those information for different database
+     * @param url
+     * @param username
+     * @param password
+     */
+
+    public static void createConnection(String url, String username, String password){
+
+
+        try{
+            conn = DriverManager.getConnection(url, username, password);
+
+
+        }catch (SQLException e){
+            System.out.println("Error while connecting with parameters");
+        }
+
+
+
+   }
 
 
     /**
@@ -215,27 +259,6 @@ public class DB_Utility {
         return columnCount;
     }
 
-   /*
-    a static method to create a connection
-    with valid url, username and password
-     */
-    public static void createConnection(){
-
-        String connectionString = "jdbc:oracle:thin:@100.25.162.89:1521:XE";
-        String userName = "hr";
-        String password = "hr";
-
-        try {
-            conn = DriverManager.getConnection(connectionString, userName, password);
-            System.out.println("Connection successful");
-        } catch (SQLException throwables) {
-            System.out.println("Connection has failed");
-            throwables.printStackTrace();
-        }
-
-
-
-    }
 
     /*
     a static method to get the ResultSet object
@@ -259,7 +282,7 @@ public class DB_Utility {
      */
     public static Map<String,String> getRowMap( int rowNum ){
 
-        Map<String,String> rowMap = new HashMap<>();
+        Map<String,String> rowMap = new LinkedHashMap<>();
         try{
             rs.absolute(rowNum);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -277,6 +300,24 @@ public class DB_Utility {
         return rowMap;
     }
 
+    /**
+     *
+     * @return The entire resultset as List of Row Map
+     */
+
+    public static List<Map<String,String> > getAllDataAsListOfMap(){
+        // each row is represented as a Map
+        // and we want to get List of each row data as Map
+        // so the data type of my List is Map --> since Map has key, value data type
+        // it becomes List<Map<String, String>>
+        List<Map<String,String> > rowMapList = new ArrayList<>();
+        // we can get one rowMap using getRowMap(i) methods
+        // so we can iterate over each row and get Map object and put it into the List
+        for (int i = 1; i <= getRowCount(); i++) {
+            rowMapList.add(   getRowMap(i)    ) ;
+        }
+        return rowMapList ;
+    }
 
 
 }

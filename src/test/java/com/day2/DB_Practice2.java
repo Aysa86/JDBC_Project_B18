@@ -1,6 +1,6 @@
 package com.day2;
 
-import oracle.net.jdbc.TNSAddress.SOException;
+import com.cybertek.jdbc.utility.DB_Utility;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
