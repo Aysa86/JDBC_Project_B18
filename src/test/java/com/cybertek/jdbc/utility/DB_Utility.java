@@ -17,9 +17,11 @@ public class DB_Utility {
      */
     public static void createConnection(){
 
-        String connectionString = "jdbc:oracle:thin:@100.25.162.89:1521:XE";
-        String userName = "hr";
-        String password = "hr";
+        String connectionString = ConfigurationReader.getProperty("database.url");
+        String userName = ConfigurationReader.getProperty("database.username");
+        String password = ConfigurationReader.getProperty("database.password");
+
+       // createConnection(connectionString, userName, password);
 
         try {
             conn = DriverManager.getConnection(connectionString, userName, password);
@@ -29,8 +31,23 @@ public class DB_Utility {
             throwables.printStackTrace();
         }
 
+    }
+
+    public static void createConnection(String env){
+
+        // add validation to avoid invalid input
+        // because we currently have only 2 : test, dev
+        //or add some condition for invalid env
+        // to directly get the info as database.url, database.username, database.password
+        // without any env
 
 
+        System.out.println("You are in " + env + " environment");
+        String connectionString = ConfigurationReader.getProperty(env + ".database.url");
+        String userName = ConfigurationReader.getProperty(env + ".database.username");
+        String password = ConfigurationReader.getProperty(env + ".database.password");
+
+        createConnection(connectionString, userName, password);
     }
 
     /**

@@ -7,13 +7,13 @@ import com.cybertek.jdbc.utility.DB_Utility;
 public class SpartanDB_Practice {
     public static void main(String[] args) {
 
-        String url = "jdbc:oracle:thin:@100.25.162.89:1521:XE";
+        //String url = "jdbc:oracle:thin:@100.25.162.89:1521:XE";
+        //DB_Utility.createConnection(url, "SP", "SP");
 
-        DB_Utility.createConnection(url, "SP", "SP");
-        System.out.println("Connected");
+        DB_Utility.createConnection();
 
 
-       // Run query "SELECT * FROM EMPLOYEES"
+        // Run query "SELECT * FROM SPARTANS"
         DB_Utility.runQuery("Select * from Spartans");
 
         //1. Display all data in console
@@ -52,6 +52,10 @@ public class SpartanDB_Practice {
         System.out.println("All the data as List of Map \n" + DB_Utility.getAllDataAsListOfMap());
 
 
+       // DB_Utility.createConnection("dev");
+        DB_Utility.createConnection("test");
+
+        DB_Utility.destroy();
 
 
     }
